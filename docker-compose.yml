@@ -21,42 +21,42 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "3000:3000"
-      - "22:22"
+      - "2222:22"
       
   mariadb:
-      image: mariadb:11.4
-      container_name: mariadb
-      restart: always
-      volumes:
-        - db-data:/var/lib/mysql
-        - db-config:/etc/mysql/conf.d
-      networks:
-        - gitea
-      environment:
-        TZ: 'Asia/Bangkok'
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_USER: gitea
-        MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE: gitea
+    image: mariadb:11.4
+    container_name: mariadb
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+      - db-config:/etc/mysql/conf.d
+    networks:
+      - gitea
+    environment:
+      TZ: 'Asia/Bangkok'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: gitea
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: gitea
       #logging:
       #  driver: syslog
       #  options:
       #    syslog-address: "tcp://127.0.0.1:514"
       #    tag: "mariadb"
-    phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      container_name: phpmyadmin
-      restart: always
-      networks:
-        - gitea
-      environment:
-        TZ: 'Asia/Bangkok'
-        PMA_HOST: mariadb
-        PMA_PORT: 3306
-        PMA_ARBITRARY: 0
-        UPLOAD_LIMIT: 1024M
-      ports:
-        - 8081:80
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    networks:
+      - gitea
+    environment:
+      TZ: 'Asia/Bangkok'
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+      UPLOAD_LIMIT: 1024M
+    ports:
+      - 8081:80
 volumes:
   gitea:
   db-data:
